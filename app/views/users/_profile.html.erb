@@ -10,12 +10,32 @@
 		<th>introduction</th>
 		<th><%= user.introduction %></th>
 	</tr>
+	<!--follows-->
+	<tr>
+		<th>follows</th>
+		<th><%= link_to user.following.count, following_user_path(user)  %></th>
+	</tr>
+	<!--followers-->
+	<tr>
+		<th>followers</th>
+		<th><%= link_to user.followers.count, followers_user_path(user)  %></th>
+	</tr>
 </table>
 
 <div class="row">
 	<% if user.id == current_user.id %>
 		<%= link_to '', edit_user_path(user), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench edit_user_#{user.id}" %>
 	<% else %>
-		<%= link_to '', user_path(current_user.id), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench edit_user_#{user.id}" %>
+		<!--<%= link_to '', user_path(current_user.id), class: "col-xs-12 btn btn-default glyphicon glyphicon-wrench edit_user_#{user.id}" %>-->
 	<% end %>
 </div>
+<!--他ユーザのプロフィールの場合-->
+<% if user.id != current_user.id %>
+	<!--フォローしている場合-->
+    <% if current_user.following?(user) %>
+        <%=link_to "フォロー解除", user_relationships_path(user.id), method: :delete, class: "btn-sm btn-danger" %>
+    <!--フォローしていない場合-->
+    <% else %>
+        <%=link_to "フォローする", user_relationships_path(user.id), method: :post, class: "btn-sm btn-success" %>
+    <% end %>
+<% end %>

@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :users,only: [:show,:index,:edit,:update]
+  resources :users,only: [:show,:index,:edit,:update] do
+    resource :relationships, only: [:create, :destroy]
+    # フォロー一覧、フォロワー一覧へのルーティング
+    member do
+      get :following, :followers
+    end
+  end
   resources :books do
     resource :favorites, only: [:create, :destroy]
     resources :book_comments, only: [:create, :destroy]
