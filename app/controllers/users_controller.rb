@@ -26,10 +26,12 @@ class UsersController < ApplicationController
   end
   
   def following
+    # フォロー一覧を表示するユーザをインスタンス変数に格納し、引き渡す。
     @user  = User.find(params[:id])
   end
 
   def followers
+    # フォロワー一覧を表示するユーザをインスタンス変数に格納し、引き渡す。
     @user  = User.find(params[:id])
   end
 
